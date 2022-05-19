@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using SampleWebApiAspNetCore.Helpers;
 using SampleWebApiAspNetCore.MappingProfiles;
+using SampleWebApiAspNetCore.Models;
 using SampleWebApiAspNetCore.Repositories;
 using SampleWebApiAspNetCore.Services;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -35,8 +36,8 @@ namespace SampleWebApiAspNetCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-            services.AddDbContext<FoodDbContext>(opt => opt.UseInMemoryDatabase("FoodDatabase"));
-            services.AddCustomCors("AllowAllOrigins");
+           // services.AddDbContext<FoodDbContext>(opt => opt.UseInMemoryDatabase("FoodDatabase"));
+            //services.AddCustomCors("AllowAllOrigins");
 
             services.AddSingleton<ISeedDataService, SeedDataService>();
             services.AddScoped<IFoodRepository, FoodSqlRepository>();
@@ -59,6 +60,10 @@ namespace SampleWebApiAspNetCore
             services.AddSwaggerGen();
 
             services.AddAutoMapper(typeof(FoodMappings));
+
+            services.AddDbContext<LangUpDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("FoodDbContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

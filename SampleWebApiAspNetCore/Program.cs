@@ -21,7 +21,7 @@ namespace SampleWebApiAspNetCore
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<FoodDbContext>();
+                    var context = services.GetRequiredService<LangUpDbContext>();
                     var dbInitializer = services.GetRequiredService<ISeedDataService>();
                     dbInitializer.Initialize(context).GetAwaiter().GetResult();
                 }
