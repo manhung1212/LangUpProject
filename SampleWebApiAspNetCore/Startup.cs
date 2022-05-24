@@ -62,7 +62,7 @@ namespace SampleWebApiAspNetCore
             services.AddAutoMapper(typeof(FoodMappings));
 
             services.AddDbContext<LangUpDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("FoodDbContext")));
+            options.UseSqlServer(Configuration.GetConnectionString("LangUpContext")));
 
         }
 
