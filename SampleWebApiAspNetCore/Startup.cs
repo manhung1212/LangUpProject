@@ -1,4 +1,8 @@
 ﻿using AutoMapper;
+using LangUp.Repositories;
+using LangUp.Repositories.Interfaces;
+using LangUp.Services;
+using LangUp.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +45,25 @@ namespace SampleWebApiAspNetCore
 
             services.AddSingleton<ISeedDataService, SeedDataService>();
             services.AddScoped<IFoodRepository, FoodSqlRepository>();
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICourseOfUserRepository, CourseOfUserRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<ILessonRepository, LessonRepository>();
+            services.AddScoped<IUsersInfoRepository, UsersInfoRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IWordDetailRepository, WordDetailRepository>();
+            services.AddScoped<IWordRepository, WordRepository>();
+
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICourseOfUserService, CourseOfUserService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ILessonService, LessonService>();
+            services.AddScoped<IUserInfoService, UserInfoService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IWordDetailService, WordDetailService>();
+            services.AddScoped<IWordService, WordService>();
+
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddScoped<IUrlHelper>(x =>

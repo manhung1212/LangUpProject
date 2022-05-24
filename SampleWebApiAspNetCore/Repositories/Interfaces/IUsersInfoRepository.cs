@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LangUp.Repositories.Interfaces
 {
-    interface IUsersInfoRepository : IGenericRepository<UserInfo>
+    public interface IUsersInfoRepository : IGenericRepository<UserInfo>
     {
     }
 }

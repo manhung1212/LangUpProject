@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LangUp.Services.Interfaces
 {
-    interface ICourseService
+    public interface ICourseService
     {
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LangUp.Repositories.Interfaces
 {
-    interface IWordDetailRepository : IGenericRepository<WordDetail>
+    public interface IWordDetailRepository : IGenericRepository<WordDetail>
     {
     }
 }

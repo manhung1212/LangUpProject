@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LangUp.Repositories.Interfaces
 {
-    interface ICourseOfUserRepository : IGenericRepository<CourseOfUser>
+    public interface ICourseOfUserRepository : IGenericRepository<CourseOfUser>
     {
     }
 }

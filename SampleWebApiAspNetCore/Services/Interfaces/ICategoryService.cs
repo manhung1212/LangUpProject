@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LangUp.Services.Interfaces
 {
-    interface ICategoryService
+    public interface ICategoryService
     {
     }
 }

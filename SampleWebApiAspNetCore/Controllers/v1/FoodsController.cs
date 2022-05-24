@@ -23,7 +23,7 @@ namespace SampleWebApiAspNetCore.v1.Controllers
     public class FoodsController : ControllerBase
     {
         private readonly IFoodRepository _foodRepository;
-        private readonly IUsersRepository _iUsersRepository = new UsersRepository();
+        private readonly IUsersRepository _iUsersRepository;
         private readonly IUrlHelper _urlHelper;
         private readonly IMapper _mapper;
 
