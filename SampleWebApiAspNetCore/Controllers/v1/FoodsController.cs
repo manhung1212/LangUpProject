@@ -10,6 +10,9 @@ using SampleWebApiAspNetCore.Entities;
 using SampleWebApiAspNetCore.Models;
 using SampleWebApiAspNetCore.Helpers;
 using System.Text.Json;
+using LangUp.Repositories.Interfaces;
+using LangUp.Repositories;
+using System.Threading.Tasks;
 
 namespace SampleWebApiAspNetCore.v1.Controllers
 {
@@ -20,6 +23,7 @@ namespace SampleWebApiAspNetCore.v1.Controllers
     public class FoodsController : ControllerBase
     {
         private readonly IFoodRepository _foodRepository;
+        private readonly IUsersRepository _iUsersRepository = new UsersRepository();
         private readonly IUrlHelper _urlHelper;
         private readonly IMapper _mapper;
 
@@ -32,6 +36,15 @@ namespace SampleWebApiAspNetCore.v1.Controllers
             _mapper = mapper;
             _urlHelper = urlHelper;
         }
+
+        [HttpGet]
+        [Route("GetChecker")]
+        public async Task<ActionResult> GetChecker()
+        {
+            var x = await _iUsersRepository.GetAll();
+            return Ok(x);
+        }
+
 
         [HttpGet(Name = nameof(GetAllFoods))]
         public ActionResult GetAllFoods(ApiVersion version, [FromQuery] QueryParameters queryParameters)

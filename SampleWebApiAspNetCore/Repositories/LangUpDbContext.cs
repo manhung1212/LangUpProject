@@ -1,12 +1,18 @@
 ﻿using LangUp.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SampleWebApiAspNetCore.Entities;
 using SampleWebApiAspNetCore.Models;
+using System;
 
 namespace SampleWebApiAspNetCore.Repositories
 {
     public class LangUpDbContext : DbContext
     {
+        public LangUpDbContext()
+        {
+        }
+
         public LangUpDbContext(DbContextOptions<LangUpDbContext> options)
            : base(options)
         {
@@ -23,6 +29,15 @@ namespace SampleWebApiAspNetCore.Repositories
         public DbSet<Word> Words { get; set; }
         public DbSet<WordDetail> WordDetails { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
 
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("LangUpContext"));
+        }
     }
 }

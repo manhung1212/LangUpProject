@@ -16,6 +16,7 @@ namespace LangUp.Entities
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool IsPrivate { get; set; }
+        public virtual Category Category { get; set; }
         public virtual ICollection<CourseOfUser> CourseOfUsers { get; set; }
         public virtual ICollection<Lesson> Lessons { get; set; }
 
