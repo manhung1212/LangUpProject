@@ -13,7 +13,7 @@ namespace LangUp.Entities
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
-        public virtual ICollection<UserInfo> UserInfos { get; set; }
+        public virtual UserInfo UserInfos { get; set; }
         public virtual ICollection<CourseOfUser> CourseOfUsers { get; set; }
 
     }

@@ -64,7 +64,7 @@ namespace LangUp.Repositories
             return await Task.Run(() => _dbset.FromSqlRaw(sql, param).AsEnumerable<T>());
         }
 
-        public async Task<int> Update(T entity, int key)
+        public async Task<int> Update(T entity, Guid key)
         {
             T existing = _entities.Set<T>().Find(key);
             if (existing != null)

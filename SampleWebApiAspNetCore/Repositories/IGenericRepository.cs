@@ -11,7 +11,7 @@ namespace LangUp.Repositories
         Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<T>> GetAll();
         Task<T> Create(T entity);
-        Task<int> Update(T entity, int key);
+        Task<int> Update(T entity, Guid key);
         Task<int> Delete(T entity);
         Task<int> Save();
         Task<IEnumerable<T>> SQLCommand(string sql, string[] param);
