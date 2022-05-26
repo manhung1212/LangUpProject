@@ -13,6 +13,8 @@ using System.Text.Json;
 using LangUp.Repositories.Interfaces;
 using LangUp.Repositories;
 using System.Threading.Tasks;
+using LangUp.ViewModels.UsersViewModel;
+using LangUp.ViewModels;
 
 namespace SampleWebApiAspNetCore.v1.Controllers
 {
@@ -47,6 +49,26 @@ namespace SampleWebApiAspNetCore.v1.Controllers
             return Ok(x);
         }
 
+        [HttpPost]
+        [Route("GetObject")]
+        public ActionResult GetObject(UsersViewModel usersIn)
+        {
+            var xOut = new ServiceResponse<UsersViewModel>
+            {
+                Message = "Error",
+                Success = false,
+                Data = null
+            };
+
+            if (!String.IsNullOrEmpty(usersIn.UserName))
+            {
+                xOut.Data = usersIn;
+                xOut.Success = true;
+                xOut.Message = "Success";
+            }
+
+            return Ok(xOut);
+        }
 
         [HttpGet(Name = nameof(GetAllFoods))]
         public ActionResult GetAllFoods(ApiVersion version, [FromQuery] QueryParameters queryParameters)
