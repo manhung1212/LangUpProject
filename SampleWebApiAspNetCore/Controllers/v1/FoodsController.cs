@@ -30,11 +30,13 @@ namespace SampleWebApiAspNetCore.v1.Controllers
         public FoodsController(
             IUrlHelper urlHelper,
             IFoodRepository foodRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IUsersRepository usersRepository)
         {
             _foodRepository = foodRepository;
             _mapper = mapper;
             _urlHelper = urlHelper;
+            _iUsersRepository = usersRepository;
         }
 
         [HttpGet]
