@@ -3,6 +3,7 @@ using LangUp.Repositories.Interfaces;
 using LangUp.Services.Interfaces;
 using LangUp.ViewModels;
 using LangUp.ViewModels.CategoriesViewModel;
+using LangUp.ViewModels.CoursesViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,53 +21,123 @@ namespace LangUp.Services
 
         public async Task<ServiceResponse<bool>> CreateCategory(string categoryName)
         {
-            if (String.IsNullOrEmpty(categoryName))
-            {
-                return new ServiceResponse<bool> { Data = false, Success = false, Message = "Category Name can NOT empty" };
-            }
-            if (isExistCategory(categoryName))
-            {
-                return new ServiceResponse<bool> { Data = false, Success = false, Message = "Category has exist" };
-            }
-            var newCategory = new Category
-            {
-                CategoryName = categoryName,
-                Status = 1
-            };
+            var response = new ServiceResponse<bool>();
 
-            if (await _icategoryRepository.Create(newCategory) != null)
+            try
             {
-                return new ServiceResponse<bool> { Data = true, Success = true, Message = "Create Category Successfull" };
+                if (String.IsNullOrEmpty(categoryName))
+                {
+                    response.Message = "Category Name can NOT empty";
+                    return response;
+                }
+                if (IsExistCategory(categoryName))
+                {
+                    response.Message = "Category has exist";
+                    return response;
+                }
+                var newCategory = new Category
+                {
+                    CategoryName = categoryName,
+                    Status = 1
+                };
+
+                if (await _icategoryRepository.Create(newCategory) != null)
+                {
+                    response.Message = "Create Category Successfull";
+                    response.Data = true;
+                    response.Success = true;
+                }
             }
-            return new ServiceResponse<bool> { Data = false, Success = false, Message = "Create Category Successfull" };
+            catch (Exception e)
+            {
+                response.Message = "Create Category Fail: " + e.Message;
+            }
+            return response;
         }
-
 
         public async Task<ServiceResponse<bool>> UpdateCategory(EditCategoryViewModel editCategoryViewModelIn)
         {
-            var category = (await _icategoryRepository.FindBy(x => x.CategoryId == editCategoryViewModelIn.CategoryId)).FirstOrDefault();
-            if (category == null)
+            var response = new ServiceResponse<bool>();
+            try
             {
-                return new ServiceResponse<bool> { Data = false, Success = false, Message = "Category NOT exist" };
-            }
-            category.Status = editCategoryViewModelIn.Status;
-            category.CategoryName = editCategoryViewModelIn.CategoryName;
+                var category = (await _icategoryRepository.FindBy(x => x.CategoryId == editCategoryViewModelIn.CategoryId)).FirstOrDefault();
+                if (category == null)
+                {
+                    response.Message = "Category NOT exist";
+                    return response;
+                }
+                category.Status = editCategoryViewModelIn.Status;
+                category.CategoryName = editCategoryViewModelIn.CategoryName;
 
-            if (await _icategoryRepository.Update(category, category.CategoryId) != -1)
-            {
-                return new ServiceResponse<bool> { Data = true, Success = true, Message = "Edit Category Successfull" };
+                if (await _icategoryRepository.Update(category, category.CategoryId) != -1)
+                {
+                    response.Message = "Edit Category Successfull";
+                    response.Success = true;
+                    response.Data = true;
+                }
             }
-            return new ServiceResponse<bool> { Data = false, Success = false, Message = "Edit Category Successfull" };
+            catch (Exception e)
+            {
+                response.Message = "Edit Category Failed: "+e.Message;
+            }
+
+            return response;
         }
 
-        public bool isExistCategory(string categoryName)
+        public bool IsExistCategory(string categoryName)
         {
             var category = _icategoryRepository.FindBy(x => x.CategoryName.Equals(categoryName));
             if (category == null)
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
+        }
+
+        public async Task<ServiceResponse<bool>> DeleteCategory(Guid categoryId)
+        {
+            var response = new ServiceResponse<bool>();
+            try
+            {
+                var category = (await _icategoryRepository.FindBy(x => x.CategoryId == categoryId)).FirstOrDefault();
+                if (category == null)
+                {
+                    response.Message = "Category NOT exist";
+                    return response;
+                }
+                category.Status = -1;
+
+                if (await _icategoryRepository.Update(category, category.CategoryId) != -1)
+                {
+                    response.Message = "Delete Category Successfull";
+                    response.Success = true;
+                    response.Data = true;
+                }
+            }
+            catch (Exception e)
+            {
+                response.Message = "Delete Category Failed: "+e.Message;
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse<IEnumerable<Category>>> GetAllCategory()
+        {
+
+            try
+            {
+                return new ServiceResponse<IEnumerable<Category>>
+                {
+                    Data = (await _icategoryRepository.FindBy(x => x.Status != -1)).ToList(),
+                    Message = "Get all categories",
+                    Success = true
+                };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

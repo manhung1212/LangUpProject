@@ -30,31 +30,12 @@ namespace LangUp.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
-        public async Task<ActionResult> GetAll()
+        [Route("GetAllCategory")]
+        public async Task<ActionResult> GetAllCategory()
         {
-            //var xOut = new ServiceResponse<IEnumerable<User>>
-            //{
-            //    Message = "Error",
-            //    Success = false,
-            //    Data = null
-            //};
-
-            var x = await _userService.GetAllUsers();
-
-            //xOut.Data = x;
-            //xOut.Success = true;
-            //xOut.Message = "Success";
-
-            return Ok(new ServiceResponse<IEnumerable<User>>
-            {
-                Data = x,
-                Message = "Success",
-                StatusCode = 200,
-                Success = true
-            });
+            ServiceResponse<IEnumerable<Category>> response = await _icategoryService.GetAllCategory();
+            return Ok(response);
         }
-
 
         [HttpPost]
         [Route("CreateCategory")]
@@ -64,7 +45,6 @@ namespace LangUp.Controllers
             return Ok(response);
         }
 
-
         [HttpPatch]
         [Route("UpdateCategory")]
         public async Task<ActionResult> UpdateCategory(EditCategoryViewModel editCategoryViewModel)
@@ -73,5 +53,12 @@ namespace LangUp.Controllers
             return Ok(response);
         }
 
+        [HttpDelete]
+        [Route("DeleteCategory")]
+        public async Task<ActionResult> DeleteCategory(Guid categoryId)
+        {
+            ServiceResponse<bool> response = await _icategoryService.DeleteCategory(categoryId);
+            return Ok(response);
+        }
     }
 }

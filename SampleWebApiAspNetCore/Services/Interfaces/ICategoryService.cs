@@ -1,5 +1,7 @@
-﻿using LangUp.ViewModels;
+﻿using LangUp.Entities;
+using LangUp.ViewModels;
 using LangUp.ViewModels.CategoriesViewModel;
+using LangUp.ViewModels.CoursesViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +13,7 @@ namespace LangUp.Services.Interfaces
     {
         Task<ServiceResponse<bool>> CreateCategory(string categoryName);
         Task<ServiceResponse<bool>> UpdateCategory(EditCategoryViewModel editCategoryViewModel);
+        Task<ServiceResponse<bool>> DeleteCategory(Guid categoryId);
+        Task<ServiceResponse<IEnumerable<Category>>> GetAllCategory();
     }
 }
