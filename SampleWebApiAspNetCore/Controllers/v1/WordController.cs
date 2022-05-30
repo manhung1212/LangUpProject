@@ -7,6 +7,8 @@ using LangUp.ViewModels.CategoriesViewModel;
 using LangUp.ViewModels.CoursesViewModel;
 using LangUp.ViewModels.LessonsViewModel;
 using LangUp.ViewModels.UsersViewModel;
+using LangUp.ViewModels.WordDetailsViewModel;
+using LangUp.ViewModels.WordsViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -32,13 +34,13 @@ namespace LangUp.Controllers
         [Route("GetAllWordByLesson")]
         public async Task<ActionResult> GetAllWordByLesson(Guid lessonId)
         {
-            ServiceResponse<IEnumerable<Lesson>> response = await _iwordService.GetAllWordByLesson(lessonId);
+            ServiceResponse<IEnumerable<Word>> response = await _iwordService.GetAllWordyLessonId(lessonId);
             return Ok(response);
         }
 
         [HttpPost]
         [Route("CreateWord")]
-        public async Task<ActionResult> CreateWord(CreateLessonViewModel createLessonViewModel)
+        public async Task<ActionResult> CreateWord(CreateWordViewModel createLessonViewModel)
         {
             Guid crrId = Guid.Parse("574203e1-8253-4fd6-bc92-911723a12cd7");
             ServiceResponse<bool> response = await _iwordService.CreateWord(createLessonViewModel, crrId);
@@ -47,10 +49,19 @@ namespace LangUp.Controllers
 
         [HttpPatch]
         [Route("UpdateWord")]
-        public async Task<ActionResult> UpdateWord(EditLessonViewModel editLessonViewModel)
+        public async Task<ActionResult> UpdateWord(EditWordViewModel editLessonViewModel)
         {
             Guid crrId = Guid.Parse("574203e1-8253-4fd6-bc92-911723a12cd7");
             ServiceResponse<bool> response = await _iwordService.UpdateWord(editLessonViewModel, crrId);
+            return Ok(response);
+        }
+
+        [HttpPatch]
+        [Route("UpdateSingleDetailWord")]
+        public async Task<ActionResult> UpdateSingleDetailWord(EditSingleWordDetailsViewModel editSingleWordDetailsViewModel)
+        {
+            Guid crrId = Guid.Parse("574203e1-8253-4fd6-bc92-911723a12cd7");
+            ServiceResponse<bool> response = await _iwordService.UpdateSingleDetailWord(editSingleWordDetailsViewModel, crrId);
             return Ok(response);
         }
 
