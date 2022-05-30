@@ -5,6 +5,7 @@ using LangUp.Services.Interfaces;
 using LangUp.ViewModels;
 using LangUp.ViewModels.CategoriesViewModel;
 using LangUp.ViewModels.CoursesViewModel;
+using LangUp.ViewModels.LessonsViewModel;
 using LangUp.ViewModels.UsersViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,54 +18,57 @@ namespace LangUp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CourseController : ControllerBase
+    public class LessonController : ControllerBase
     {
         private readonly IUserService _iuserService;
         private readonly ICategoryService _icategoryService;
         private readonly ICourseService _icourseService;
+        private readonly ILessonService _ilessonService;
 
-        public CourseController(
+        public LessonController(
             IUserService userService,
             ICategoryService categoryService,
-            ICourseService courseService)
+            ICourseService courseService,
+            ILessonService lessonService)
         {
             _iuserService = userService;
             _icategoryService = categoryService;
             _icourseService = courseService;
+            _ilessonService = lessonService;
         }
 
         [HttpGet]
-        [Route("GetAllCourse")]
-        public async Task<ActionResult> GetAllCourse()
+        [Route("GetAllLessonByCourseId")]
+        public async Task<ActionResult> GetAllLessonByCourseId(Guid courseId)
         {
-            ServiceResponse<IEnumerable<Category>> response = await _icategoryService.GetAllCategory();
+            ServiceResponse<IEnumerable<Lesson>> response = await _ilessonService.GetAllLessonByCourseId(courseId);
             return Ok(response);
         }
 
         [HttpPost]
-        [Route("CreateCourse")]
-        public async Task<ActionResult> CreateCourse(CreateCourseViewModel createCourseViewModel)
+        [Route("CreateLesson")]
+        public async Task<ActionResult> CreateLesson(CreateLessonViewModel createLessonViewModel)
         {
             Guid crrId = Guid.Parse("574203e1-8253-4fd6-bc92-911723a12cd7");
-            ServiceResponse<bool> response = await _icourseService.CreateCourse(createCourseViewModel, crrId);
+            ServiceResponse<bool> response = await _ilessonService.CreateLesson(createLessonViewModel, crrId);
             return Ok(response);
         }
 
         [HttpPatch]
-        [Route("UpdateCourse")]
-        public async Task<ActionResult> UpdateCourse(EditCourseViewModel editCourseViewModel)
+        [Route("UpdateLesson")]
+        public async Task<ActionResult> UpdateLesson(EditLessonViewModel editLessonViewModel)
         {
             Guid crrId = Guid.Parse("574203e1-8253-4fd6-bc92-911723a12cd7");
-            ServiceResponse<bool> response = await _icourseService.UpdateCourse(editCourseViewModel, crrId);
+            ServiceResponse<bool> response = await _ilessonService.UpdateLesson(editLessonViewModel, crrId);
             return Ok(response);
         }
 
         [HttpDelete]
-        [Route("DeleteCourse")]
-        public async Task<ActionResult> DeleteCourse(Guid categoryId)
+        [Route("DeleteLesson")]
+        public async Task<ActionResult> DeleteLesson(Guid lessonId)
         {
             Guid crrId = Guid.Parse("574203e1-8253-4fd6-bc92-911723a12cd7");
-            ServiceResponse<bool> response = await _icourseService.DeleteCourse(categoryId, crrId);
+            ServiceResponse<bool> response = await _ilessonService.DeleteLesson(lessonId, crrId);
             return Ok(response);
         }
     }

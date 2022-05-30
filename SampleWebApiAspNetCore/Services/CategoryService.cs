@@ -14,17 +14,21 @@ namespace LangUp.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _icategoryRepository;
-        public CategoryService(ICategoryRepository categoryRepository)
+        private readonly ICourseRepository _icourseRepository;
+        public CategoryService(ICategoryRepository categoryRepository,ICourseRepository courseRepository)
         {
             _icategoryRepository = categoryRepository;
+            _icourseRepository = courseRepository;
         }
 
-        public async Task<ServiceResponse<bool>> CreateCategory(string categoryName)
+        public async Task<ServiceResponse<bool>> CreateCategory(string categoryName, Guid crrUser)
         {
             var response = new ServiceResponse<bool>();
-
             try
             {
+                //add Check is super Admin
+
+
                 if (String.IsNullOrEmpty(categoryName))
                 {
                     response.Message = "Category Name can NOT empty";
@@ -55,11 +59,13 @@ namespace LangUp.Services
             return response;
         }
 
-        public async Task<ServiceResponse<bool>> UpdateCategory(EditCategoryViewModel editCategoryViewModelIn)
+        public async Task<ServiceResponse<bool>> UpdateCategory(EditCategoryViewModel editCategoryViewModelIn, Guid crrUser)
         {
             var response = new ServiceResponse<bool>();
             try
             {
+                //add Check is super Admin
+
                 var category = (await _icategoryRepository.FindBy(x => x.CategoryId == editCategoryViewModelIn.CategoryId)).FirstOrDefault();
                 if (category == null)
                 {
@@ -78,7 +84,7 @@ namespace LangUp.Services
             }
             catch (Exception e)
             {
-                response.Message = "Edit Category Failed: "+e.Message;
+                response.Message = "Edit Category Failed: " + e.Message;
             }
 
             return response;
@@ -94,11 +100,13 @@ namespace LangUp.Services
             return true;
         }
 
-        public async Task<ServiceResponse<bool>> DeleteCategory(Guid categoryId)
+        public async Task<ServiceResponse<bool>> DeleteCategory(Guid categoryId, Guid crrUser)
         {
             var response = new ServiceResponse<bool>();
             try
             {
+                //add Check is super Admin
+
                 var category = (await _icategoryRepository.FindBy(x => x.CategoryId == categoryId)).FirstOrDefault();
                 if (category == null)
                 {
@@ -116,28 +124,40 @@ namespace LangUp.Services
             }
             catch (Exception e)
             {
-                response.Message = "Delete Category Failed: "+e.Message;
+                response.Message = "Delete Category Failed: " + e.Message;
             }
             return response;
         }
 
         public async Task<ServiceResponse<IEnumerable<Category>>> GetAllCategory()
         {
+            var response = new ServiceResponse<IEnumerable<Category>>();
 
             try
             {
-                return new ServiceResponse<IEnumerable<Category>>
+                var categories = (await _icategoryRepository.FindBy(x => x.Status != -1)).ToList();
+                var lstCategory = new List<Category>();
+                if (categories.Count > 0)
                 {
-                    Data = (await _icategoryRepository.FindBy(x => x.Status != -1)).ToList(),
-                    Message = "Get all categories",
-                    Success = true
-                };
+                    foreach (var category in categories)
+                    {
+                        var courses = (await _icourseRepository.FindBy(x => x.CategoryId == category.CategoryId)).ToList();
+                        if (courses.Count > 0)
+                        {
+                            category.Courses = courses;
+                        }
+                        lstCategory.Add(category);
+                    }
+                }
+                response.Data = lstCategory;
+                response.Message = "Get all categories";
+                response.Success = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                response.Message = "Get all categories Failed: " + e.Message;
             }
+            return response;
         }
     }
 }

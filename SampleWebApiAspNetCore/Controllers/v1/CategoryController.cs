@@ -26,7 +26,7 @@ namespace LangUp.Controllers
             ICategoryService categoryService)
         {
             _userService = userService;
-            _icategoryService = categoryService;    
+            _icategoryService = categoryService;
         }
 
         [HttpGet]
@@ -41,7 +41,8 @@ namespace LangUp.Controllers
         [Route("CreateCategory")]
         public async Task<ActionResult> CreateCategory(string categoryName)
         {
-            ServiceResponse<bool> response = await _icategoryService.CreateCategory(categoryName);
+            Guid crrId = Guid.Parse("574203e1-8253-4fd6-bc92-911723a12cd7");
+            ServiceResponse<bool> response = await _icategoryService.CreateCategory(categoryName, crrId);
             return Ok(response);
         }
 
@@ -49,7 +50,8 @@ namespace LangUp.Controllers
         [Route("UpdateCategory")]
         public async Task<ActionResult> UpdateCategory(EditCategoryViewModel editCategoryViewModel)
         {
-            ServiceResponse<bool> response = await _icategoryService.UpdateCategory(editCategoryViewModel);
+            Guid crrId = Guid.Parse("574203e1-8253-4fd6-bc92-911723a12cd7");
+            ServiceResponse<bool> response = await _icategoryService.UpdateCategory(editCategoryViewModel, crrId);
             return Ok(response);
         }
 
@@ -57,7 +59,8 @@ namespace LangUp.Controllers
         [Route("DeleteCategory")]
         public async Task<ActionResult> DeleteCategory(Guid categoryId)
         {
-            ServiceResponse<bool> response = await _icategoryService.DeleteCategory(categoryId);
+            Guid crrId = Guid.Parse("574203e1-8253-4fd6-bc92-911723a12cd7");
+            ServiceResponse<bool> response = await _icategoryService.DeleteCategory(categoryId, crrId);
             return Ok(response);
         }
     }

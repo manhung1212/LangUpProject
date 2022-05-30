@@ -125,7 +125,8 @@ namespace LangUp.Migrations
                     LessonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LessonName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LessonDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {

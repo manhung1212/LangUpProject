@@ -20,7 +20,7 @@ namespace LangUp.Services
             _icategoryRepository = categoryRepository;
         }
 
-        public async Task<ServiceResponse<bool>> CreateCourse(CreateCourseViewModel createCourseViewModel)
+        public async Task<ServiceResponse<bool>> CreateCourse(CreateCourseViewModel createCourseViewModel, Guid crrUser)
         {
             var response = new ServiceResponse<bool>();
             try
@@ -40,7 +40,7 @@ namespace LangUp.Services
 
                 var course = new Course
                 {
-                    AuthorId = Guid.Parse("574203e1-8253-4fd6-bc92-911723a12cd7"), //temp is huynhnd
+                    AuthorId = crrUser,
                     CategoryId = category.CategoryId,
                     Code = "CodeTemp",
                     CourseName = createCourseViewModel.CourseName,

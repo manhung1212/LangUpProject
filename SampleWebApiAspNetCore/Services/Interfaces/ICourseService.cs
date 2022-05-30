@@ -10,7 +10,7 @@ namespace LangUp.Services.Interfaces
 {
     public interface ICourseService
     {
-        Task<ServiceResponse<bool>> CreateCourse(CreateCourseViewModel createCourseViewModel);
+        Task<ServiceResponse<bool>> CreateCourse(CreateCourseViewModel createCourseViewModel, Guid crrUser);
         Task<ServiceResponse<bool>> UpdateCourse(EditCourseViewModel editCourseViewModel, Guid crrUser);
         Task<ServiceResponse<bool>> DeleteCourse(Guid courseId, Guid crrUser);
         Task<ServiceResponse<IEnumerable<Course>>> GetAllCourses();

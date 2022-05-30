@@ -9,6 +9,7 @@ namespace LangUp.Entities
         public string LessonName { get; set;}
         public string LessonDescription { get; set;}
         public Guid CourseId { get; set; }
+        public int Status { get; set; }
         public Course Course { get; set; }
         public virtual ICollection<Word> Words { get; set; }
 

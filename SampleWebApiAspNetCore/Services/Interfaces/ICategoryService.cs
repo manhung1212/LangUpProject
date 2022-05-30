@@ -11,9 +11,9 @@ namespace LangUp.Services.Interfaces
 {
     public interface ICategoryService
     {
-        Task<ServiceResponse<bool>> CreateCategory(string categoryName);
-        Task<ServiceResponse<bool>> UpdateCategory(EditCategoryViewModel editCategoryViewModel);
-        Task<ServiceResponse<bool>> DeleteCategory(Guid categoryId);
+        Task<ServiceResponse<bool>> CreateCategory(string categoryName, Guid crrUser);
+        Task<ServiceResponse<bool>> UpdateCategory(EditCategoryViewModel editCategoryViewModel, Guid crrUser);
+        Task<ServiceResponse<bool>> DeleteCategory(Guid categoryId, Guid crrUser);
         Task<ServiceResponse<IEnumerable<Category>>> GetAllCategory();
     }
 }
